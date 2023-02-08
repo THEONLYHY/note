@@ -94,18 +94,42 @@ $ cat id_rsa.pub "得到如下的内容，之后，需要把这一长串字符�
 ```shell
 $ git log --pretty=oneline
 
+$ git reset --hard 
 
 ```
 
+3.6 删除文件
+```shell
+$ git rm readme.txt
+git commit -m "lwh:delete readme.txt"
+```
+## 四、Git免密使用( https) 
 
+3.7.1 新建文件，并保存密码
 
- 3.6 删除文件
+```shell
+$ touch ~/.git-credentials
+$ vim ~/.git-credentials
 
-四、Git免密使用( ) 3.7.1 新建文件，并保存密码
+# 在.git-credentials文件中添加内容 
+https://{username}:{password}@github.com
+```
 
 3.7.2 添加配置
 
+```shell
+ # 在执行命令
+$ cd ~
+$ git config --global credential.helper store
+```
+
 3.7.3 查看配置
+
+```shell
+ # 查看~/.git-credentials 文件下是否有了以下配置项
+[credential]
+	helper = store
+```
 
 五、git的实现原理
 
@@ -119,76 +143,48 @@ Git 仓库目录(历史版本库)是 Git 用来保存项目的元数据和对象
 
 基本的 Git 工作流程如下: 在工作目录中修改文件。
 
- $ git rm readme.txt
+[图解git](https://marklodato.github.io/visual-git-guide/index-zh-cn.html )
 
-$ git commit -m "lwh:delete readme.txt"
+https://git-scm.com/book/en/v2
 
- **sptth**
+## 六、git分支管理 
 
-  $ touch ~/.git-credentials
+6.1 创建分支
 
-$ vim ~/.git-credentials
-
-\# 在.git-credentials文件中添加内容 https://{username}:{password}@github.com
-
- \# 在执行命令
-
-$ cd ~
-
-$ git config --global credential.helper store
-
- \# 查看~/.git-credentials 文件下是否有了以下配置项 [credential]
-
-  helper = store
-
- $ git log --pretty=oneline
-
-a84cdf5bcb3d9ab7c219640376fe7216a9be1497 (HEAD -> master, origin/master) lwh:add
-
-mvc
-
-ae633a211b207b4149a5bb682a7b78e317e0f1c7 lwh:add textquery
-
-2be0e38baee066393feb8ed673438f98c316ce46 lwh:add shared_ptr/weak_ptr
-
-f39f1e38efbdbfa356f0544d1acd274ac44f9fef lwh:add unique_ptr
-
-cadffb8f9e6075995d911c667e5381705545d5ff lwh:add severval fiels
-
-$ git reset --hard ae633a211b207b41
-
-HEAD is now at ae633a2 lwh:add textquery
-
- 暂存文件，将文件的快照放入暂存区域。 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录。
-
- https://marklodato.github.io/visual-git-guide/index-zh-cn.html https://git-scm.com/book/en/v2
-
-六、git分支管理 6.1 创建分支
+```shell
+$ git checkout -b lwh
+$ echo "this is lwh branch">lwh.txt
+$ git add lwh.txt
+$ git commit -m "lwh.txt"
+```
 
 6.2 切换分支
 
+```shell
+$ git checkout master
+```
+
 6.3 合并分支
+
+```shell
+$ git merge lwh # 在当前分支合并lwh分支
+```
 
 6.4 删除分支
 
+```shell
+$ git branch -d lwh
+```
+
 6.5 查看分支历史
 
-   $ git checkout -b lwh
+```shell
+git log --graph --pretty=oneline --abbrev-commit
+```
 
-$ echo "this is lwh branch">lwh.txt
 
-$ git add lwh.txt
 
-$ git commit -m "lwh.txt"
-
- $ git checkout master
-
-  $ git merge lwh # 在当前分支合并lwh分支
-
- $ git branch -d lwh
-
- git log --graph --pretty=oneline --abbrev-commit
-
- 
+## 使用git遇到的一些问题
 
 [github 配置了公钥依旧提示git@github.com‘s password: Permission denied, please try again. 的解决办法](https://docs.github.com/zh/authentication/troubleshooting-ssh/using-ssh-over-the-https-port)
+
